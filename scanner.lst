@@ -1,0 +1,50 @@
+
+// ==========================================================================
+//  GPLEX error listing for lex source file <scanner.lex>
+// ==========================================================================
+//  Version:  1.2.2
+//  Machine:  VDI-VL04-011
+//  DateTime: 5/03/2019 11:40:49 AM
+//  UserName: n9917772
+// ==========================================================================
+
+
+%namespace GPLexTutorial 
+ 
+digit [0-9] letter [a-zA-Z] 
+//----------^^^^^^^^^^^^^^^^
+// Error: Expected end-of-line here
+// --------------------------------
+ 
+%% 
+ 
+if                           { return (int)Tokens.IF; } 
+else                         { return (int)Tokens.ELSE; } 
+int                          { return (int)Tokens.INT; } 
+bool                         { return (int)Tokens.BOOL; } 
+ 
+{letter}({letter}|{digit})*  { return (int)Tokens.IDENT; } 
+//^^^^^
+// Error: Unknown lexical category <letter> 
+// -----------------------------------------
+{digit}+                     { return (int)Tokens.NUMBER; } 
+ 
+"="                          { return '='; } 
+"+"                          { return '+'; } 
+"<"                          { return '<'; } 
+"("                          { return '('; } 
+")"                          { return ')'; } 
+"{"                          { return '{'; } 
+"}"                          { return '}'; } 
+";"                          { return ';'; } 
+ 
+[ \r\n\t]                    /* skip whitespace */ 
+ 
+.                            {                                   
+				throw new Exception(                                      
+					String.Format(                                          
+						"unexpected character '{0}'", yytext));  
+                             } 
+ 
+%% // ==========================================================================
+
